@@ -25,4 +25,21 @@ LIRC Remote repositories:
 wget https://sourceforge.net/p/lirc-remotes/code/ci/master/tree/remotes/philips/TIVO34.lircd.conf?format=raw -Otivo34.lircd.conf
 
 
-## 
+## Installing the Daemon
+The GUI runs as a daemon that will automatically start when the Pi boots up. If the script crashes for any reason, the daemon will automatically restart itself.
+
+Copy the remote.service file into /etc/systemd/system/ folder.
+
+Configure the daemon to start on boot up.
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable remote.service
+```
+
+You can start and stop the daemon by running:
+
+```
+systemctl start remote
+systemctl stop remote
+```

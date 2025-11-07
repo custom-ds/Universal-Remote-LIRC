@@ -9,6 +9,79 @@ AMPLIFIER = "SONY_RM-AAU014"
 TV = "SAMSUNG-C750"
 FIREPLACE = "tivo"
 
+
+
+root = tk.Tk()
+root.attributes('-fullscreen', True)  # Fullscreen mode covering taskbar
+root.overrideredirect(True)  # Remove title bar and window decorations
+root.attributes('-topmost', True)  # Keep window on top
+canvas = tk.Canvas(root, width=1280, height=720)
+canvas.pack()
+
+def main():
+
+
+
+    # Load gradient background
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    pathFilename = os.path.join(script_dir, "assets", "background.png")
+    bg_img = ImageTk.PhotoImage(Image.open(pathFilename))
+    canvas.create_image(0, 0, anchor="nw", image=bg_img)
+
+    # Load the buttons
+    btnPowerAll, btnPowerAllImg = draw_image_button(canvas, "power_all.png", 840, 30, lambda e: power_all())
+    btnPowerTV, btnPowerTVImg = draw_image_button(canvas, "power_tv.png", 840, 180, lambda e: power_tv())
+    btnPowerAmp, btnPowerAmpImg = draw_image_button(canvas, "power_amp.png", 840, 330, lambda e: power_amp())
+    btnPowerFireplace, btnPowerFireplaceImg = draw_image_button(canvas, "power_fireplace.png", 840, 480, lambda e: power_fireplace())
+
+    # TV Remote Buttons
+    btnTVUp, btnTVUpImg = draw_image_button(canvas, "tv_up.png", 200, 80, lambda e: send_ir(TV, "KEY_UP"))
+    btnTVDown, btnTVDownImg = draw_image_button(canvas, "tv_down.png", 200, 410, lambda e: send_ir(TV, "KEY_DOWN"))
+    btnTVLeft, btnTVLeftImg = draw_image_button(canvas, "tv_left.png", 30, 245, lambda e: send_ir(TV, "KEY_LEFT"))
+    btnTVRight, btnTVRightImg = draw_image_button(canvas, "tv_right.png", 370, 245, lambda e: send_ir(TV, "KEY_RIGHT"))
+    btnTVEnter, btnTVEnterImg = draw_image_button(canvas, "tv_enter.png", 200, 245, lambda e: send_ir(TV, "KEY_ENTER"))
+    btnTVBack, btnTVBackImg = draw_image_button(canvas, "tv_back.png", 40, 410, lambda e: send_ir(TV, "KEY_EXIT"))
+    btnTVHome, btnTVHomeImg = draw_image_button(canvas, "tv_home.png", 370, 410, lambda e: send_ir(TV, "KEY_BACK"))
+
+    # Volume Buttons
+    btnVolumeUp, btnVolumeUpImg = draw_image_button(canvas, "volume_up.png", 620, 250, lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_UP"))
+    btnVolumeDown, btnVolumeDownImg = draw_image_button(canvas, "volume_down.png", 620, 450, lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_DOWN"))
+
+
+
+
+
+    # Exit Button in bottom-right corner
+    exit_font = ("Helvetica", 14)
+    exit_frame = tk.Frame(root)
+    exit_frame.pack(side="bottom", anchor="se", padx=10, pady=10)
+    exit_btn = tk.Button(exit_frame, text="Exit", command=exit_app, height=1, width=6, font=exit_font, bg="#888", fg="white")
+    exit_btn.pack()
+
+    root.mainloop()
+
+
+def draw_image_button(canvas, image_filename, x, y, event_handler):
+    """
+    Draw a PNG image on the canvas at the given position and bind an event handler.
+    
+    Args:
+        canvas: The tkinter Canvas widget
+        image_path: Path to the .png image file
+        x: X-coordinate position
+        y: Y-coordinate position
+        event_handler: Function to call when the image is clicked
+        
+    Returns:
+        tuple: (image_id, image_reference) - The canvas item ID and image reference
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    pathFilename = os.path.join(script_dir, "assets", image_filename)
+    img = ImageTk.PhotoImage(Image.open(pathFilename))
+    img_id = canvas.create_image(x, y, anchor="nw", image=img)
+    canvas.tag_bind(img_id, "<Button-1>", event_handler)
+    return img_id, img
+
 def send_ir(remote, command):
     subprocess.run(["irsend", "SEND_ONCE", remote, command])
 
@@ -34,160 +107,5 @@ def power_all():
     power_fireplace()
 
 
-root = tk.Tk()
-root.title("Media Remote")
-root.geometry("1280x720")
-root.overrideredirect(True)
-
-# Load and set background image
-script_dir = os.path.dirname(os.path.abspath(__file__))
-bg_image_path = os.path.join(script_dir, "assets", "background.png", bg="black")
-bg_image = Image.open(bg_image_path)
-bg_photo = ImageTk.PhotoImage(bg_image)
-bg_label = tk.Label(root, image=bg_photo)
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-bg_label.image = bg_photo  # Keep a reference to prevent garbage collection
-
-
-# Power buttons down right side
-# Master Power button
-master_icon_path = os.path.join(script_dir, "assets", "power_all.png")
-master_icon = Image.open(master_icon_path)
-master_photo = ImageTk.PhotoImage(master_icon)
-master_btn = tk.Label(root, image=master_photo, borderwidth=0, highlightthickness=0, bg="black")
-master_btn.place(x=840, y=30)
-master_btn.bind("<Button-1>", lambda e: power_all())
-master_btn.image = master_photo  # Keep a reference to prevent garbage collection
-
-# TV Power button
-tv_icon_path = os.path.join(script_dir, "assets", "power_tv.png")
-tv_icon = Image.open(tv_icon_path)
-tv_photo = ImageTk.PhotoImage(tv_icon)
-tv_btn = tk.Label(root, image=tv_photo, borderwidth=0, highlightthickness=0, bg="black")
-tv_btn.place(x=840, y=180)
-tv_btn.bind("<Button-1>", lambda e: power_tv())
-tv_btn.image = tv_photo  # Keep a reference to prevent garbage collection
-
-# Amp power button
-amp_icon_path = os.path.join(script_dir, "assets", "power_amp.png")
-amp_icon = Image.open(amp_icon_path)
-amp_photo = ImageTk.PhotoImage(amp_icon)
-amp_btn = tk.Label(root, image=amp_photo, borderwidth=0, highlightthickness=0, bg="black")
-amp_btn.place(x=840, y=330)
-amp_btn.bind("<Button-1>", lambda e: power_amp())
-amp_btn.image = amp_photo  # Keep a reference to prevent garbage collection
-
-# Fireplace power button
-fireplace_icon_path = os.path.join(script_dir, "assets", "power_fireplace.png")
-fireplace_icon = Image.open(fireplace_icon_path)
-fireplace_photo = ImageTk.PhotoImage(fireplace_icon)
-fireplace_btn = tk.Label(root, image=fireplace_photo, borderwidth=0, highlightthickness=0, bg="black")
-fireplace_btn.place(x=840, y=480)
-fireplace_btn.bind("<Button-1>", lambda e: power_fireplace())
-fireplace_btn.image = fireplace_photo  # Keep a reference to prevent garbage collection
-
-
-
-# Volume Buttons
-volume_up_icon_path = os.path.join(script_dir, "assets", "volume_up.png")
-volume_up_icon = Image.open(volume_up_icon_path)
-volume_up_photo = ImageTk.PhotoImage(volume_up_icon)
-volume_up_btn = tk.Label(root, image=volume_up_photo, borderwidth=0, highlightthickness=0, bg="black")
-volume_up_btn.place(x=620, y=250)
-volume_up_btn.bind("<Button-1>", lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_UP"))
-volume_up_btn.image = volume_up_photo  # Keep a reference to prevent garbage collection
-
-volume_down_icon_path = os.path.join(script_dir, "assets", "volume_down.png")
-volume_down_icon = Image.open(volume_down_icon_path)
-volume_down_photo = ImageTk.PhotoImage(volume_down_icon)
-volume_down_btn = tk.Label(root, image=volume_down_photo, borderwidth=0, highlightthickness=0, bg="black")
-volume_down_btn.place(x=620, y=450)
-volume_down_btn.bind("<Button-1>", lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_DOWN"))
-volume_down_btn.image = volume_down_photo  # Keep a reference to prevent garbage collection
-
-
-
-# Fireplace Buttons
-fireplace_temp_icon_path = os.path.join(script_dir, "assets", "fireplace_temp.png")
-fireplace_temp_icon = Image.open(fireplace_temp_icon_path)
-fireplace_temp_photo = ImageTk.PhotoImage(fireplace_temp_icon)
-fireplace_temp_btn = tk.Label(root, image=fireplace_temp_photo, borderwidth=0, highlightthickness=0, bg="black")
-fireplace_temp_btn.place(x=620, y=20)
-fireplace_temp_btn.bind("<Button-1>", lambda e: send_ir(FIREPLACE, "BTN_TEMP"))
-fireplace_temp_btn.image = fireplace_temp_photo  # Keep a reference to prevent garbage collection
-
-
-# TV Remote Buttons
-tv_up_icon_path = os.path.join(script_dir, "assets", "tv_up.png")
-tv_up_icon = Image.open(tv_up_icon_path)
-tv_up_photo = ImageTk.PhotoImage(tv_up_icon)
-tv_up_btn = tk.Label(root, image=tv_up_photo, borderwidth=0, highlightthickness=0)
-tv_up_btn.place(x=200, y=80)
-tv_up_btn.bind("<Button-1>", lambda e: send_ir(TV, "KEY_UP"))
-tv_up_btn.image = tv_up_photo  # Keep a reference to prevent garbage collection
-
-tv_down_icon_path = os.path.join(script_dir, "assets", "tv_down.png")
-tv_down_icon = Image.open(tv_down_icon_path)
-tv_down_photo = ImageTk.PhotoImage(tv_down_icon)
-tv_down_btn = tk.Label(root, image=tv_down_photo, borderwidth=0, highlightthickness=0, bg="black")
-tv_down_btn.place(x=200, y=410)
-tv_down_btn.bind("<Button-1>", lambda e: send_ir(TV, "KEY_DOWN"))
-tv_down_btn.image = tv_down_photo  # Keep a reference to prevent garbage collection
-
-tv_left_icon_path = os.path.join(script_dir, "assets", "tv_left.png")
-tv_left_icon = Image.open(tv_left_icon_path)
-tv_left_photo = ImageTk.PhotoImage(tv_left_icon)
-tv_left_btn = tk.Label(root, image=tv_left_photo, borderwidth=0, highlightthickness=0, bg="black")
-tv_left_btn.place(x=30, y=245)
-tv_left_btn.bind("<Button-1>", lambda e: send_ir(TV, "KEY_LEFT"))
-tv_left_btn.image = tv_left_photo  # Keep a reference to prevent garbage collection
-
-tv_right_icon_path = os.path.join(script_dir, "assets", "tv_right.png")
-tv_right_icon = Image.open(tv_right_icon_path)
-tv_right_photo = ImageTk.PhotoImage(tv_right_icon)
-tv_right_btn = tk.Label(root, image=tv_right_photo, borderwidth=0, highlightthickness=0, bg="black")
-tv_right_btn.place(x=370, y=245)
-tv_right_btn.bind("<Button-1>", lambda e: send_ir(TV, "KEY_RIGHT"))
-tv_right_btn.image = tv_right_photo  # Keep a reference to prevent garbage collection
-
-tv_enter_icon_path = os.path.join(script_dir, "assets", "tv_enter.png")
-tv_enter_icon = Image.open(tv_enter_icon_path)
-tv_enter_photo = ImageTk.PhotoImage(tv_enter_icon)
-tv_enter_btn = tk.Label(root, image=tv_enter_photo, borderwidth=0, highlightthickness=0, bg="black")
-tv_enter_btn.place(x=200, y=245)
-tv_enter_btn.bind("<Button-1>", lambda e: send_ir(TV, "KEY_ENTER"))
-tv_enter_btn.image = tv_enter_photo  # Keep a reference to prevent garbage collection
-
-tv_back_icon_path = os.path.join(script_dir, "assets", "tv_back.png")
-tv_back_icon = Image.open(tv_back_icon_path)
-tv_back_photo = ImageTk.PhotoImage(tv_back_icon)
-tv_back_btn = tk.Label(root, image=tv_back_photo, borderwidth=0, highlightthickness=0, bg="black")
-tv_back_btn.place(x=40, y=410)
-tv_back_btn.bind("<Button-1>", lambda e: send_ir(TV, "KEY_EXIT"))
-tv_back_btn.image = tv_back_photo  # Keep a reference to prevent garbage collection
-
-tv_home_icon_path = os.path.join(script_dir, "assets", "tv_home.png")
-tv_home_icon = Image.open(tv_home_icon_path)
-tv_home_photo = ImageTk.PhotoImage(tv_home_icon)
-tv_home_btn = tk.Label(root, image=tv_home_photo, borderwidth=0, highlightthickness=0, bg="black")
-tv_home_btn.place(x=370, y=410)
-tv_home_btn.bind("<Button-1>", lambda e: send_ir(TV, "KEY_BACK"))
-tv_home_btn.image = tv_home_photo  # Keep a reference to prevent garbage collection
-
-
-# Fonts
-button_font = ("Helvetica", 24)
-frame_font = ("Helvetica", 28, "bold")
-exit_font = ("Helvetica", 14)
-
-
-
-
-
-# Exit Button in bottom-right corner
-exit_frame = tk.Frame(root)
-exit_frame.pack(side="bottom", anchor="se", padx=10, pady=10)
-exit_btn = tk.Button(exit_frame, text="Exit", command=exit_app, height=1, width=6, font=exit_font, bg="#888", fg="white")
-exit_btn.pack()
-
-root.mainloop()
+if __name__ == "__main__":
+    main()
