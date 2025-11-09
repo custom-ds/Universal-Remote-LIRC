@@ -2,13 +2,13 @@ import tkinter as tk
 import subprocess
 import os
 from PIL import Image, ImageTk
+import time
 
 # Remote constants
 AMPLIFIER = "SONY_RM-AAU014"
 #TV = "Samsung_BN59-00507A"
 TV = "SAMSUNG-C750"
-FIREPLACE = "tivo"
-
+FIREPLACE = "fireplace"
 
 
 root = tk.Tk()
@@ -29,26 +29,26 @@ def main():
     canvas.create_image(0, 0, anchor="nw", image=bg_img)
 
     # Load the buttons
-    btnPowerAll, btnPowerAllImg = draw_image_button(canvas, "power_all.png", 840, 30, lambda e: power_all())
-    btnPowerTV, btnPowerTVImg = draw_image_button(canvas, "power_tv.png", 840, 180, lambda e: power_tv())
-    btnPowerAmp, btnPowerAmpImg = draw_image_button(canvas, "power_amp.png", 840, 330, lambda e: power_amp())
-    btnPowerFireplace, btnPowerFireplaceImg = draw_image_button(canvas, "power_fireplace.png", 840, 480, lambda e: power_fireplace())
+    btnPowerAll, btnPowerAllImg = draw_image_button(canvas, "power_system.png", 950, 20, lambda e: power_all())
+    btnPowerTV, btnPowerTVImg = draw_image_button(canvas, "power_tv.png", 950, 140, lambda e: power_tv())
+    btnPowerAmp, btnPowerAmpImg = draw_image_button(canvas, "power_amplifier.png", 950, 260, lambda e: power_amp())
+    btnPowerFireplace, btnPowerFireplaceImg = draw_image_button(canvas, "power_fireplace.png", 950, 380, lambda e: power_fireplace())
 
     # TV Remote Buttons
-    btnTVUp, btnTVUpImg = draw_image_button(canvas, "tv_up.png", 200, 80, lambda e: send_ir(TV, "KEY_UP"))
-    btnTVDown, btnTVDownImg = draw_image_button(canvas, "tv_down.png", 200, 410, lambda e: send_ir(TV, "KEY_DOWN"))
-    btnTVLeft, btnTVLeftImg = draw_image_button(canvas, "tv_left.png", 30, 245, lambda e: send_ir(TV, "KEY_LEFT"))
-    btnTVRight, btnTVRightImg = draw_image_button(canvas, "tv_right.png", 370, 245, lambda e: send_ir(TV, "KEY_RIGHT"))
-    btnTVEnter, btnTVEnterImg = draw_image_button(canvas, "tv_enter.png", 200, 245, lambda e: send_ir(TV, "KEY_ENTER"))
-    btnTVBack, btnTVBackImg = draw_image_button(canvas, "tv_back.png", 40, 410, lambda e: send_ir(TV, "KEY_EXIT"))
-    btnTVHome, btnTVHomeImg = draw_image_button(canvas, "tv_home.png", 370, 410, lambda e: send_ir(TV, "KEY_BACK"))
+    btnTVUp, btnTVUpImg = draw_image_button(canvas, "tv_up.png", 200, 130, lambda e: send_ir(TV, "KEY_UP"))
+    btnTVDown, btnTVDownImg = draw_image_button(canvas, "tv_down.png", 200, 350, lambda e: send_ir(TV, "KEY_DOWN"))
+    btnTVLeft, btnTVLeftImg = draw_image_button(canvas, "tv_left.png", 90, 240, lambda e: send_ir(TV, "KEY_LEFT"))
+    btnTVRight, btnTVRightImg = draw_image_button(canvas, "tv_right.png", 310, 240, lambda e: send_ir(TV, "KEY_RIGHT"))
+    btnTVEnter, btnTVEnterImg = draw_image_button(canvas, "tv_enter.png", 200, 240, lambda e: send_ir(TV, "KEY_ENTER"))
+    btnTVBack, btnTVBackImg = draw_image_button(canvas, "tv_back.png", 90, 350, lambda e: send_ir(TV, "KEY_EXIT"))
+    btnTVHome, btnTVHomeImg = draw_image_button(canvas, "tv_home.png", 310, 350, lambda e: send_ir(TV, "KEY_BACK"))
 
     # Volume Buttons
-    btnVolumeUp, btnVolumeUpImg = draw_image_button(canvas, "volume_up.png", 620, 250, lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_UP"))
-    btnVolumeDown, btnVolumeDownImg = draw_image_button(canvas, "volume_down.png", 620, 450, lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_DOWN"))
+    btnVolumeUp, btnVolumeUpImg = draw_image_button(canvas, "volume_up.png", 650, 50, lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_UP"))
+    btnVolumeDown, btnVolumeDownImg = draw_image_button(canvas, "volume_down.png", 650, 200, lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_DOWN"))
 
 
-
+    btnFireTemp, btnFireTempImg = draw_image_button(canvas, "fireplace_temp.png", 650, 450, lambda e: send_ir(FIREPLACE, "KEY_TEMP"))
 
 
     # Exit Button in bottom-right corner
@@ -99,11 +99,13 @@ def power_amp():
     send_ir(AMPLIFIER, "BTN_POWER")
 
 def power_fireplace():
-    send_ir("FIREPLACE", "TIVO")
+    send_ir("FIREPLACE", "KEY_POWER")
 
 def power_all():
     power_tv()
+    time.sleep(0.25)
     power_amp()
+    time.sleep(0.25)
     power_fireplace()
 
 
