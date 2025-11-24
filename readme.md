@@ -33,7 +33,7 @@ Save the file, then reboot the Raspberry Pi.
 
 You should be able to test the IR receiver. The basic form of that is to use the mode2 program to read in the gaps between the pulses and spaces.
 
-'mode2 -d /dev/lirc0'
+`mode2 -d /dev/lirc0`
 
 Note that it is possible that the devices have been created in other orders, and you may need to modify the device with something like `mode2 -d /dev/lirc1`. Check the /dev/ directory for possible options.
 
