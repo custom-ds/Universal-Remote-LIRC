@@ -94,6 +94,7 @@ def draw_image_button(canvas, image_filename, x, y, event_handler):
 
 def send_ir(remote, command):
     subprocess.run(["irsend", "SEND_ONCE", remote, command])
+    time.sleep(0.25)
 
 def system_power():
     send_ir(TV, "KEY_POWER")

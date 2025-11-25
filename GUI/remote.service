@@ -1,15 +1,24 @@
 [Unit]
 Description=Touchscreen Media Remote
-After=graphical.target
+After=display-manager.service
+Requires=display-manager.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /home/pi/media_remote.py
-WorkingDirectory=/home/pi
+ExecStart=/usr/bin/python3 -u /opt/media-remote/remote.py
+WorkingDirectory=/opt/media-remote
 User=pi
+
+# Set env for X11; adjust DISPLAY if your session uses something else
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
+Environment=PYTHONUNBUFFERED=1
 Restart=on-failure
+RestartSec=5
+
+# Optional: also write to files you can tail
+StandardOutput=append:/opt/media-remote/remote.out
+StandardError=append:/opt/media-remote/remote.err
 
 [Install]
 WantedBy=graphical.target
