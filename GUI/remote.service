@@ -7,11 +7,11 @@ Requires=display-manager.service
 Type=simple
 ExecStart=/usr/bin/python3 -u /opt/media-remote/remote.py
 WorkingDirectory=/opt/media-remote
-User=pi
+User=USERNAME
 
 # Set env for X11; adjust DISPLAY if your session uses something else
 Environment=DISPLAY=:0
-Environment=XAUTHORITY=/home/pi/.Xauthority
+Environment=XAUTHORITY=/home/USERNAME/.Xauthority
 Environment=PYTHONUNBUFFERED=1
 Restart=on-failure
 RestartSec=5

@@ -1,2 +1,9 @@
+# Ignore Kicad backup and temporary files
 /PCB/raspi-ir/raspi-ir-backups
 *.lck
+
+# FreeCAD Exclusions
+*.FCBak
+
+# The installation package directory
+/package
