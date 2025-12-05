@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #Prompt the user for the account they want to install the application for
+echo ""
+echo ""
 echo "Please enter the username of the account you want to install Universal Remote for:"
 read USERNAME
 
@@ -11,6 +13,14 @@ if ! dpkg -s lirc >/dev/null 2>&1; then
     sudo apt-get install -y lirc
 else
     echo "lirc package is already installed."
+fi
+
+# Check to see if the pil-image.tk package is installed, and if not, install it
+if ! python3 -c "import PIL.ImageTk" >/dev/null 2>&1; then
+    echo "PIL.ImageTk package is not installed. Installing pillow..."
+    sudo apt install python3-pil.imagetk
+else
+    echo "PIL.ImageTk package is already installed."
 fi
 
 echo "Setting up application files..."
@@ -28,6 +38,13 @@ sudo rm -f assets.zip
 # move the remote.py to the install directory
 sudo mv -f remote.py "$INSTALL_DIR/remote.py"
 
+# Pis use apt install to manage packages globally.
+# move the requirements.txt to the install directory
+sudo mv -f requirements.txt "$INSTALL_DIR/requirements.txt"
+# # Install the required Python packages from requirements.txt
+# echo "Installing required Python packages..."
+# sudo pip3 install -r "$INSTALL_DIR/requirements.txt"
+
 # Set the appropriate permissions
 sudo chmod -R 755 "$INSTALL_DIR"
 
@@ -43,44 +60,75 @@ sudo unzip -o lircd.zip -d "/etc/lirc/lircd.conf.d"
 # Delete the original lircd.zip file
 sudo rm -f lircd.zip
 
-# prompt the user if the boot/config.txt should be updated
-echo "Do you want to update /boot/config.txt to enable the IR transmitter and receiver? (y/n)"
+# prompt the user if the boot/firmware/config.txt should be updated
+echo ""
+echo ""
+echo "Do you want to update /boot/firmware/config.txt to enable the IR transmitter and receiver? (y/n)"
 read UPDATE_CONFIG
 if [ "$UPDATE_CONFIG" == "y" ] || [ "$UPDATE_CONFIG" == "Y" ]; then
-    # Check if dtoverlay=gpio-ir,gpio_pin=18 already exists in /boot/config.txt
-    if ! grep -q "dtoverlay=gpio-ir" /boot/config.txt; then
-        echo "Updating /boot/config.txt to enable the IR transmitter and receiver..."
-        echo "dtoverlay=gpio-ir,gpio_pin=17" | sudo tee -a /boot/config.txt
-        echo "dtoverlay=gpio-ir-tx,gpio_pin=18" | sudo tee -a /boot/config.txt
+    CFGFILE="/boot/firmware/config.txt"
+    # Check if dtoverlay=gpio-ir definitions already exists in /boot/firmware/config.txt
+    if ! grep -q "dtoverlay=gpio-ir" $CFGFILE; then
+        echo "Updating /boot/firmware/config.txt to enable the IR transmitter and receiver..."
+        echo "dtoverlay=gpio-ir,gpio_pin=18" | sudo tee -a $CFGFILE
+        echo "dtoverlay=gpio-ir-tx,gpio_pin=17" | sudo tee -a $CFGFILE
         echo ""
-        echo "/boot/config.txt has been updated."
+        echo "$CFGFILE has been updated."
         echo "!!! A reboot may be required for the changes to take effect !!!"
         echo ""
     else
-        echo "/boot/config.txt already contains the necessary configuration."
+        echo "$CFGFILE already contains the necessary configuration."
     fi
 else
-    echo "Skipping update of /boot/config.txt."
+    echo "Skipping update of $CFGFILE."
 fi
 
 # Do you want to rotate the Raspberry pi screen 90 degrees? (y/n)
+echo ""
+echo ""
 echo "Do you want to rotate the Raspberry Pi screen 90 degrees? (y/n)"
 read ROTATE_SCREEN
 if [ "$ROTATE_SCREEN" == "y" ] || [ "$ROTATE_SCREEN" == "Y" ]; then
-    # Check if display_lcd_rotate=1 already exists in /boot/config.txt
-    if ! grep -q "display_lcd_rotate" /boot/config.txt; then
+    CFGFILE="/home/$USERNAME/.config/kanshi/config"
+    # Check if DSI-1 configuration already exists in ~/.config/kanshi/config
+    if ! grep -q "DSI-1" "$CFGFILE"; then
         echo "Rotating the Raspberry Pi screen 90 degrees..."
-        echo "display_lcd_rotate=3" | sudo tee -a /boot/config.txt
+        echo "profile {" | sudo tee -a $CFGFILE
+        echo "    output DSI-1 enable mode 720x1280@60.038 position 0,0 transform 270" | sudo tee -a $CFGFILE
+        echo "}" | sudo tee -a $CFGFILE
         echo ""
-        echo "/boot/config.txt has been updated to rotate the screen."
+        echo "$CFGFILE has been updated to rotate the screen."
         echo "!!! A reboot may be required for the changes to take effect !!!"
         echo ""
     else
-        echo "/boot/config.txt already contains the screen rotation configuration."
+        echo "$CFGFILE already contains the screen rotation configuration."
     fi
 else
     echo "Skipping screen rotation."
 fi
+
+# Do you want to configure a screensaver to turn off the display after 5 minutes of inactivity? (y/n)
+echo ""
+echo ""
+echo "Do you want to configure a screensaver to turn off the display after 5 minutes of inactivity? (y/n)"
+read CONFIGURE_SCREENSAVER
+if [ "$CONFIGURE_SCREENSAVER" == "y" ] || [ "$CONFIGURE_SCREENSAVER" == "Y" ]; then
+    CFGFILE="/etc/xdg/labwc-greeter/autostart"
+    if ! grep -q "swayidle" "$CFGFILE"; then
+        echo "Configuring screensaver to turn off the display after 5 minutes of inactivity..."
+        # Create or update the /etc/xdg/labwc-greeter/autostart
+        
+        echo "swayidle -w timeout 600 'wlopm --off \*' resume 'wlopm --on \*' &" | sudo tee -a "$CFGFILE"
+        echo "Screensaver configuration has been added to $CFGFILE."
+        echo "!!! A reboot may be required for the changes to take effect !!!"
+        echo ""
+    else
+        echo "Screensaver configuration already exists in $CFGFILE."
+    fi
+else
+    echo "Skipping screensaver configuration."
+fi
+
 
 # Restart lircd service to apply new configurations
 echo "...restarting lircd service to apply new configurations"
@@ -90,6 +138,9 @@ sudo systemctl restart lircd
 echo "Setting up the remote control service..."
 # Update the remote.service file to use the correct USERNAME
 sudo sed -i "s/USERNAME/$USERNAME/g" remote.service
+
+echo "Changing the ownership of the remote.service file"
+sudo chown root:root remote.service
 
 # Move the remote.service file to /etc/systemd/system/
 sudo mv -f remote.service /etc/systemd/system/remote.service

@@ -19,6 +19,7 @@ if (-not (Test-Path "package")) {
 
 # Copy the specified Python script into the package directory
 Copy-Item "GUI\$script_name.py" -Destination "package\remote.py" -Force
+Copy-Item "GUI\requirements.txt" -Destination "package\requirements.txt" -Force
 
 # Zip up the asset files into a single archive for distribution
 if (Test-Path "GUI\assets") {
@@ -47,3 +48,4 @@ Compress-Archive -Path "package\*" -DestinationPath "package\package.zip" -Force
 Get-ChildItem "package" | Where-Object { $_.Name -ne "package.zip" } | Remove-Item -Recurse -Force
 
 Write-Host "Package created successfully!" -ForegroundColor Green
+

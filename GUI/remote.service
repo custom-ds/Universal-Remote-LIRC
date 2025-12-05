@@ -1,12 +1,12 @@
 [Unit]
-Description=Touchscreen Media Remote
+Description=Touchscreen Universal Remote
 After=display-manager.service
 Requires=display-manager.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 -u /opt/media-remote/remote.py
-WorkingDirectory=/opt/media-remote
+ExecStart=/usr/bin/python3 -u /opt/universal-remote/remote.py
+WorkingDirectory=/opt/universal-remote
 User=USERNAME
 
 # Set env for X11; adjust DISPLAY if your session uses something else
@@ -17,8 +17,8 @@ Restart=on-failure
 RestartSec=5
 
 # Optional: also write to files you can tail
-StandardOutput=append:/opt/media-remote/remote.out
-StandardError=append:/opt/media-remote/remote.err
+StandardOutput=append:/opt/universal-remote/remote.out
+StandardError=append:/opt/universal-remote/remote.err
 
 [Install]
 WantedBy=graphical.target

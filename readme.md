@@ -4,8 +4,44 @@
 Display is based on the Raspberry Pi Touch Display 2, which is a 720x1280 pixels.
 
 
-## Rasperry Pi Configuration
+## Installing on a Pi
+There is an installation script that handles most of the setup on the Raspberry Pi.
 
+Use the Raspberry Pi Imager to install the base load of Raspberry Pi OS. This has been tested on a Pi 3 and Pi 4.
+
+ - Install the 64 bit version of the operating system.
+ - Set the time zone and keyboard layout as appropriate.
+ - Set a hostname
+ - Add a username, and set a password on it.
+ - Configure the Wifi network.
+ - Enable SSH access with password authentication.
+
+Write out the image to the MicroSD card. Insert the card into the Raspberry Pi, then complete the assembly of the screen to the Pi. Attach the Pi daughter board to interface off to the 
+
+Be sure to include the power cable as well as the ribbon cable. Attach the
+
+Once assembly is completed, boot the Pi up
+
+SSH into the new Pi computer using another PC. Update the core operating system before proceeding.
+
+ - sudo apt update
+ - sudo apt upgrade -y
+
+RUN THE PACKAGE.PS1
+
+COPY package.zip to the /home/{username}
+
+```
+unzip package.zip
+chmod u+x install.sh
+sudo .\install.sh
+```
+
+
+
+
+## Rasperry Pi Configuration
+These are the manual steps required. If you use the `install.sh`, then these steps are generally taken care of for you, and you can skip this section. 
 
 Install the required packages
 ```

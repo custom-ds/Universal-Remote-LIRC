@@ -20,31 +20,43 @@ canvas = tk.Canvas(root, width=1280, height=720)
 canvas.pack()
 
 def main():
-
-
+    #Constants for colors
+    TEXT_COLOR = "#333333"
+    BOX_BORDER_COLOR = "#777777"
+    DIVIDER_COLOR = "#003e69"
 
     # Load gradient background
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    pathFilename = os.path.join(script_dir, "assets", "background.png")
+    pathFilename = os.path.join(script_dir, "assets", "whi-background.png")
     bg_img = ImageTk.PhotoImage(Image.open(pathFilename))
     canvas.create_image(0, 0, anchor="nw", image=bg_img)
 
     # Draw a box around the Input Select
-    canvas.create_rectangle(40, 80, 600, 210, outline="#444", width=2)
-
-    # # Draw a box around the Fireplace controls
-    # canvas.create_rectangle(600, 422, 1275, 558, outline="#444", width=2)
-
-    # Draw a box around the TV Remote controls
-    canvas.create_rectangle(40, 260, 600, 710, outline="#444", width=2)
-    canvas.create_text(90, 240, text="Camera", font=("Helvetica", 16), fill="white")     # Label the box
+    canvas.create_rectangle(640, 260, 850, 410, outline=BOX_BORDER_COLOR, width=2)
+    canvas.create_text(700, 245, text="Input Select", font=("Helvetica", 16), fill=TEXT_COLOR)
     
+    # Draw a box around the TV Remote controls
+    canvas.create_rectangle(40, 260, 600, 710, outline=BOX_BORDER_COLOR, width=2)
+    canvas.create_text(80, 245, text="Camera", font=("Helvetica", 16), fill=TEXT_COLOR)     # Label the box
+    
+    # Draw a division line for the Input Select
+    canvas.create_line(700, 660, 1280, 660, fill=DIVIDER_COLOR, width=4)
+
+    #Draw the logo in the top-left corner
+    logo_path = os.path.join(script_dir, "assets", "logo.png")
+    logo_img = ImageTk.PhotoImage(Image.open(logo_path))
+    canvas.create_image(10, 10, anchor="nw", image=logo_img)
+
+    #Draw a tagline in the bottom-right corner
+    tagline_path = os.path.join(script_dir, "assets", "tagline.png")
+    tagline_img = ImageTk.PhotoImage(Image.open(tagline_path))
+    canvas.create_image(920, 675, anchor="nw", image=tagline_img)
 
     # Load the Power buttons
     btnPowerAll, btnPowerAllImg = draw_image_button(canvas, "power/org_system.png", 945, 20, lambda e: power_all())
-    btnPowerTVs, btnPowerTVsImg = draw_image_button(canvas, "power/blu_tvs.png", 945, 160, lambda e: power_tvs())
-    btnPowerProjector, btnPowerProjectorImg = draw_image_button(canvas, "power/blu_projector.png", 945, 300, lambda e: power_projector())
-    btnPowerCamera, btnPowerCameraImg = draw_image_button(canvas, "power/gra_camera.png", 945, 440, lambda e: power_camera())
+    btnPowerTVs, btnPowerTVsImg = draw_image_button(canvas, "power/blu_tvs.png", 945, 150, lambda e: power_tvs())
+    btnPowerProjector, btnPowerProjectorImg = draw_image_button(canvas, "power/blu_projector.png", 945, 280, lambda e: power_projector())
+    btnPowerCamera, btnPowerCameraImg = draw_image_button(canvas, "power/gra_camera.png", 945, 410, lambda e: power_camera())
 
     # Camera Buttons
     btnCameraUp, btnCameraUpImg = draw_image_button(canvas, "round/115/blu_up.png", 190, 280, lambda e: send_ir(CAMERA, "KEY_UP"))
@@ -61,10 +73,8 @@ def main():
     btnCamera4, btnCamera4Img = draw_image_button(canvas, "round/115/blu_4.png", 470, 580, lambda e: send_ir(CAMERA, "KEY_4"))
 
     # Swap Button
-    btnSwapUp, btnSwapUpImg = draw_image_button(canvas, "round/115/org_swap.png", 620, 290, lambda e: send_ir(HDMI_SWITCH, "BTN_INPUT"))
-    # btnVolumeDown, btnVolumeDownImg = draw_image_button(canvas, "volume_down.png", 780, 295, lambda e: send_ir(AMPLIFIER, "BTN_VOLUME_DOWN"))
+    btnSwapUp, btnSwapUpImg = draw_image_button(canvas, "round/115/org_swap.png", 680, 280, lambda e: send_ir(HDMI_SWITCH, "BTN_INPUT"))
 
-    # btnFireTemp, btnFireTempImg = draw_image_button(canvas, "fireplace_temp.png", 620, 430, lambda e: send_ir(FIREPLACE, "KEY_TEMP"))
 
 
     # Exit Button in bottom-right corner
