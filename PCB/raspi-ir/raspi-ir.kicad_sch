@@ -3842,6 +3842,12 @@
 		(uuid "05bcf36a-f5c1-4ef2-99fe-98bfaa3bc402")
 	)
 	(junction
+		(at 161.29 63.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0ee7d0eb-996e-42c4-ac6c-785229380adc")
+	)
+	(junction
 		(at 165.1 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3972,6 +3978,16 @@
 			(type default)
 		)
 		(uuid "0fe551af-2298-45e5-9972-4a8c260aa2d9")
+	)
+	(wire
+		(pts
+			(xy 161.29 63.5) (xy 163.83 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1521f8c4-fe3d-44f0-9669-8914f6d94e03")
 	)
 	(wire
 		(pts
@@ -4705,7 +4721,7 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 63.5) (xy 163.83 63.5)
+			(xy 153.67 63.5) (xy 161.29 63.5)
 		)
 		(stroke
 			(width 0)
@@ -4909,7 +4925,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "072403a9-c40f-4ad1-9ac6-8c3f8e698728")
-		(property "Reference" "R5"
+		(property "Reference" "R2"
 			(at 57.15 101.5999 0)
 			(effects
 				(font
@@ -4972,7 +4988,73 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "R5")
+					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 161.29 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0af835a7-a09a-49d3-ad5b-206a5a98246c")
+		(property "Reference" "#PWR020"
+			(at 161.29 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 161.29 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 161.29 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 161.29 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 161.29 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cec1c081-aa59-41ab-9b9f-8c4fec12c5ed")
+		)
+		(instances
+			(project "raspi-ir"
+				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -5053,7 +5135,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0ca282e7-f27e-41d5-b3c6-aa468f2f713b")
-		(property "Reference" "C6"
+		(property "Reference" "C1"
 			(at 96.52 43.18 0)
 			(effects
 				(font
@@ -5143,7 +5225,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "C6")
+					(reference "C1")
 					(unit 1)
 				)
 			)
@@ -5295,7 +5377,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1f1a91b4-57e3-408c-9206-fd37dcb0c72b")
-		(property "Reference" "R3"
+		(property "Reference" "R8"
 			(at 198.12 138.4299 0)
 			(effects
 				(font
@@ -5349,7 +5431,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "R3")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -5738,7 +5820,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3472285d-e2b2-466a-beba-fc93795cd698")
-		(property "Reference" "R6"
+		(property "Reference" "R1"
 			(at 38.1 101.5999 0)
 			(effects
 				(font
@@ -5801,7 +5883,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "R6")
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -6018,7 +6100,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3d86c048-ebfb-4da9-b468-98657d2cbbe1")
-		(property "Reference" "J6"
+		(property "Reference" "J1"
 			(at 31.115 111.76 0)
 			(effects
 				(font
@@ -6079,7 +6161,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "J6")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -6227,7 +6309,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4472f554-e2a2-488b-adc3-e70be62ed13a")
-		(property "Reference" "D4"
+		(property "Reference" "D3"
 			(at 250.19 35.5599 90)
 			(effects
 				(font
@@ -6317,7 +6399,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "D4")
+					(reference "D3")
 					(unit 1)
 				)
 			)
@@ -6563,7 +6645,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5ff880c5-5895-409d-a692-ae9d08fa5ec1")
-		(property "Reference" "R7"
+		(property "Reference" "R5"
 			(at 107.95 101.5999 0)
 			(effects
 				(font
@@ -6626,7 +6708,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "R7")
+					(reference "R5")
 					(unit 1)
 				)
 			)
@@ -6858,7 +6940,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6e123627-04d5-49b8-bba0-6a947464a875")
-		(property "Reference" "R2"
+		(property "Reference" "R3"
 			(at 76.2 101.5999 0)
 			(effects
 				(font
@@ -6921,7 +7003,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "R2")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -6937,7 +7019,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6f5cae1f-3e25-4516-a7cf-bf2f1888e70c")
-		(property "Reference" "D3"
+		(property "Reference" "D4"
 			(at 250.19 71.1199 90)
 			(effects
 				(font
@@ -7027,7 +7109,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "D3")
+					(reference "D4")
 					(unit 1)
 				)
 			)
@@ -7043,7 +7125,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7220de98-490a-4fa8-8d9f-96033e1a66ff")
-		(property "Reference" "R8"
+		(property "Reference" "R7"
 			(at 104.14 147.32 90)
 			(effects
 				(font
@@ -7095,7 +7177,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "R8")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -7178,7 +7260,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "746adf52-c5fa-46b6-9fa6-fc3f11d6f7d8")
-		(property "Reference" "J1"
+		(property "Reference" "J7"
 			(at 170.18 59.6899 0)
 			(effects
 				(font
@@ -7187,7 +7269,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "Conn_01x03_Pin"
+		(property "Value" "LCD Power"
 			(at 170.18 62.2299 0)
 			(effects
 				(font
@@ -7235,7 +7317,7 @@
 		(instances
 			(project ""
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "J1")
+					(reference "J7")
 					(unit 1)
 				)
 			)
@@ -7251,7 +7333,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7702de09-5655-4ddc-a865-b055c94557e2")
-		(property "Reference" "J3"
+		(property "Reference" "J8"
 			(at 147.32 52.07 0)
 			(effects
 				(font
@@ -7417,7 +7499,7 @@
 		(instances
 			(project ""
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "J3")
+					(reference "J8")
 					(unit 1)
 				)
 			)
@@ -7650,7 +7732,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "998aad74-12d8-4805-bc63-0233c293ae88")
-		(property "Reference" "J8"
+		(property "Reference" "J6"
 			(at 257.175 69.85 0)
 			(effects
 				(font
@@ -7711,7 +7793,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "J8")
+					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -7925,7 +8007,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ba70400a-b72f-4eaf-bab9-7e66e4707286")
-		(property "Reference" "R1"
+		(property "Reference" "R6"
 			(at 104.14 128.27 90)
 			(effects
 				(font
@@ -7977,7 +8059,7 @@
 		(instances
 			(project ""
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "R1")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -7993,7 +8075,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bb1d7aa0-96a6-43ab-bed8-22c08c3d690d")
-		(property "Reference" "J7"
+		(property "Reference" "J5"
 			(at 255.905 34.29 0)
 			(effects
 				(font
@@ -8054,7 +8136,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "J7")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -8393,7 +8475,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e0587fe2-ce91-473e-b2b5-2a22f47ed63b")
-		(property "Reference" "C1"
+		(property "Reference" "C2"
 			(at 203.2 113.03 0)
 			(effects
 				(font
@@ -8483,7 +8565,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "C1")
+					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -8708,7 +8790,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f4f2f12e-d205-45a0-a533-030daae382b8")
-		(property "Reference" "J5"
+		(property "Reference" "J2"
 			(at 50.165 111.76 0)
 			(effects
 				(font
@@ -8769,7 +8851,7 @@
 		(instances
 			(project "raspi-ir"
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "J5")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -8785,7 +8867,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f5ce4b2e-0dae-430e-9e0e-1016178015e2")
-		(property "Reference" "J2"
+		(property "Reference" "J3"
 			(at 69.215 111.76 0)
 			(effects
 				(font
@@ -8846,7 +8928,7 @@
 		(instances
 			(project ""
 				(path "/44299703-577c-4e07-82b2-1ac696b0eb61"
-					(reference "J2")
+					(reference "J3")
 					(unit 1)
 				)
 			)
