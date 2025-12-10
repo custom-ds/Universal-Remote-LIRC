@@ -60,6 +60,11 @@ sudo unzip -o lircd.zip -d "/etc/lirc/lircd.conf.d"
 # Delete the original lircd.zip file
 sudo rm -f lircd.zip
 
+# Configure the /etc/lirc/lirc_options.conf file to use the correct driver and device
+LIRC_OPTIONS_FILE="/etc/lirc/lirc_options.conf"
+sudo sed -i 's|^driver *= .*|driver = default|' "$LIRC_OPTIONS_FILE"
+sudo sed -i 's|^device *= .*|device = /dev/lirc0|' "$LIRC_OPTIONS_FILE"
+
 # prompt the user if the boot/firmware/config.txt should be updated
 echo ""
 echo ""

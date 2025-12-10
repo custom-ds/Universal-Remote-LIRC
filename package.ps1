@@ -1,3 +1,10 @@
+
+
+# List out all of the *.py files in the GUI directory for the user to see
+Write-Host "Available Python scripts in the GUI directory:" -ForegroundColor Cyan
+Get-ChildItem "GUI" -Filter "*.py" | ForEach-Object { Write-Host $_.Name }
+Write-Host ""
+
 # Prompt the user for the python script to package up
 $script_name = Read-Host "Enter the name of the Python script to package (without .py extension)"
 

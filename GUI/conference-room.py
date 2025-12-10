@@ -32,8 +32,8 @@ def main():
     canvas.create_image(0, 0, anchor="nw", image=bg_img)
 
     # Draw a box around the Input Select
-    canvas.create_rectangle(640, 260, 850, 410, outline=BOX_BORDER_COLOR, width=2)
-    canvas.create_text(700, 245, text="Input Select", font=("Helvetica", 16), fill=TEXT_COLOR)
+    canvas.create_rectangle(620, 260, 910, 410, outline=BOX_BORDER_COLOR, width=2)
+    canvas.create_text(680, 245, text="Input Select", font=("Helvetica", 16), fill=TEXT_COLOR)
     
     # Draw a box around the TV Remote controls
     canvas.create_rectangle(40, 260, 600, 710, outline=BOX_BORDER_COLOR, width=2)
@@ -72,8 +72,9 @@ def main():
     btnCamera3, btnCamera3Img = draw_image_button(canvas, "round/115/blu_3.png", 330, 580, lambda e: send_ir(CAMERA, "KEY_3"))
     btnCamera4, btnCamera4Img = draw_image_button(canvas, "round/115/blu_4.png", 470, 580, lambda e: send_ir(CAMERA, "KEY_4"))
 
-    # Swap Button
-    btnSwapUp, btnSwapUpImg = draw_image_button(canvas, "round/115/org_swap.png", 680, 280, lambda e: send_ir(HDMI_SWITCH, "BTN_INPUT"))
+    # Input Buttons
+    btnInput1, btnInput1Img = draw_image_button(canvas, "round/115/gre_1.png", 635, 280, lambda e: set_input(1))
+    btnInput2, btnInput2Img = draw_image_button(canvas, "round/115/gre_2.png", 780, 280, lambda e: set_input(2))
 
 
 
@@ -113,6 +114,27 @@ def send_ir(remote, command):
     time.sleep(0.25)
 
 
+
+def set_input(input_number):
+    if input_number == 1:
+        send_ir(HDMI_SWITCH, "KEY_OUTA_1")
+        time.sleep(0.75)
+        send_ir(HDMI_SWITCH, "KEY_OUTB_1")
+        time.sleep(0.75)
+        send_ir(HDMI_SWITCH, "KEY_OUTC_1")
+        time.sleep(0.75)
+        send_ir(HDMI_SWITCH, "KEY_OUTD_1")
+        time.sleep(0.75)
+
+    elif input_number == 2:
+        send_ir(HDMI_SWITCH, "KEY_OUTA_2")
+        time.sleep(0.75)
+        send_ir(HDMI_SWITCH, "KEY_OUTB_2")
+        time.sleep(0.75)
+        send_ir(HDMI_SWITCH, "KEY_OUTC_2")
+        time.sleep(0.75)
+        send_ir(HDMI_SWITCH, "KEY_OUTD_2")
+        time.sleep(0.75)
 
 def exit_app(event=None):
     root.quit()
